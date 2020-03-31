@@ -3,54 +3,170 @@
 <head>
   <title>Page Title</title>
   <meta charset="UTF-8"/>
+  <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <header>
+        <div class="toptext">
+            <h1>Rock Paper Scissors</h1>
+        </div>
+    </header>
+
+    <div class="center">
+        <div class="playerShow">
+            <p>Your Points:</p>
+            <p class="playerPoints">0</p>
+            <input type="image" src="images/rock.png" class="rock" width="100px"><br>
+            <input type="image" src="images/paper.png" class="paper" width="100px" /><br>
+            <input type="image" src="images/scissors.png" class="scissors" width="100px" /><br>
+            <br><p>Make your choice!</p>
+        </div>
+        <div class="computerShow">
+            <p>Computer's Points:</p>
+            <p class="computerPoints">0</p>
+            <img src="images/rock.png" width="100px"><br>
+            <img src="images/paper.png" width="100px"><br>
+            <img src="images/scissors.png" width="100px"><br>
+            <br><p>Computer's choice!</p>
+        </div>
+    </div>
+    <div id="playroundShow">
+        <div class="weapon">
+            <img id="playerWeapon" src="images/question.jpeg" alt="Player Weapon" width="150px">
+            <img id="computerWeapon" src="images/question.jpeg" alt="Computer Weapon" width="150px"> 
+        </div>
+        <p class="round"></p>
+    </div>
+
   <script>
+    const choices = ["rock", "paper", "scissors"];
+
+    let playerSelection = "";
+    let computerSelection = computerPlay();
+
+    let playerPoints = 0;
+    let computerPoints = 0;
+
+    let playerPointsText = document.querySelector(".playerPoints");
+    let computerPointsText = document.querySelector(".computerPoints");
+    let roundText = document.querySelector(".round");
+
+    let rockImg = document.querySelector(".rock");
+    rockImg.addEventListener("click", () => playerPlay("rock"));
+
+    let scissorsImg = document.querySelector(".scissors");
+    scissorsImg.addEventListener("click", () => playerPlay("scissors"));
+
+    let paperImg = document.querySelector(".paper");
+    paperImg.addEventListener("click", () => playerPlay("paper"));
+
+    function playerPlay(playerSelection) {
+        weapons(playerSelection, computerSelection);
+        playRound(playerSelection, computerSelection);
+    }
+
     function computerPlay() {
-        let compChoice = Math.random()
-        if (compChoice <= 0.33) {
-            return "Rock"
-        } else if (compChoice > 0.33 && compChoice <= 0.66) {
-            return "Paper"
-        } else {
-            return "Scissors"
+        return choices[Math.floor(Math.random() * 3)];
+    }
+
+    function weapons(playerSelection, computerSelection) {
+        switch(playerSelection) {
+            case "rock":
+                document.getElementById("playerWeapon").src="images/rock.png";
+                if (computerSelection === "scissors") {
+                    document.getElementById("computerWeapon").src="images/scissors.png";
+                }
+                else if (computerSelection === "paper") {
+                    document.getElementById("computerWeapon").src="images/paper.png";
+                }
+                else if (computerSelection === "rock") {
+                    document.getElementById("computerWeapon").src="images/rock.png";
+                }
+                break;
+            case "scissors":
+                document.getElementById("playerWeapon").src="images/scissors.png";
+                if (computerSelection === "paper") {
+                    document.getElementById("computerWeapon").src="images/paper.png";
+                }
+                else if (computerSelection === "rock") {
+                    document.getElementById("computerWeapon").src="images/rock.png";
+                }
+                else if (computerSelection === "scissors") {
+                    document.getElementById("computerWeapon").src="images/scissors.png";
+                }
+                break;
+            case "paper":
+                document.getElementById("playerWeapon").src="images/paper.png";
+                if (computerSelection === "rock") {
+                    document.getElementById("computerWeapon").src="images/rock.png";
+                }
+                else if (computerSelection === "scissors") {
+                    document.getElementById("computerWeapon").src="images/scissors.png";
+                }
+                else if (computerSelection === "paper") {
+                    document.getElementById("computerWeapon").src="images/paper.png";
+                }
+                break;
         }
     }
 
     function playRound(playerSelection, computerSelection) {
-        // Make them case-insensitive
-        player = playerSelection.toLowerCase()
-        computer = computerSelection.toLowerCase()
-
-        if (player == "rock" && computer == "paper") {
-            return "You Lose! Paper beats Rock"
-        } else if (player == "rock" && computer == "scissors") {
-            return "You Win! Rock beats Scissors"
-        } else if (player == "rock" && computer == "rock") {
-            return "It's a draw!"
-        } else if (player == "paper" && computer == "rock") {
-            return "You Win! Paper beats Rock"
-        } else if (player == "paper" && computer == "paper") {
-            return "It's a draw!"
-        } else if (player == "paper" && computer == "scissors") {
-            return "You Lose! Scissors beats Paper"
-        } else if (player == "scissors" && computer == "rock") {
-            return "You Lose! Rock beats Scissors"
-        } else if (player == "scissors" && computer == "paper") {
-            return "You Win! Scissors beats Paper"
-        } else if (player == "scissors" && computer == "scissors") {
-            return "It's a draw!"
+        switch(playerSelection) {
+            case "rock":
+                if (computerSelection === "scissors") {
+                    playerPoints++;
+                    roundText.textContent = "Player gets a point!";
+                }
+                else if (computerSelection === "paper") {
+                    computerPoints++;
+                    roundText.textContent = "Computer gets a point!";
+                }
+                else if (computerSelection === "rock") {
+                    roundText.textContent = "Its a Tie";
+                }
+                break;
+            case "scissors":
+                if (computerSelection === "paper") {
+                    playerPoints++;
+                    roundText.textContent = "Player gets a point!";
+                }
+                else if (computerSelection === "rock") {
+                    computerPoints++;
+                    roundText.textContent = "Computer gets a point!";
+                }
+                else if (computerSelection === "scissors") {
+                    roundText.textContent = "Its a Tie";
+                }
+                break;
+            case "paper":
+                if (computerSelection === "rock") {
+                    playerPoints++;
+                    roundText.textContent = "Player gets a point!";
+                }
+                else if (computerSelection === "scissors") {
+                    roundText.textContent = "Computer gets a point!";
+                    computerPoints++;
+                }
+                else if (computerSelection === "paper") {
+                    roundText.textContent = "Its a Tie";
+                }
+                break;
         }
+        playerPointsText.textContent = playerPoints;
+        computerPointsText.textContent = computerPoints;
+        console.log(playerSelection, computerSelection, computerPlay());
     }
-    // const playerSelection = "RocK"
-    // const computerSelection = computerPlay()
-    // console.log(playRound(playerSelection, computerSelection))
+    
 
+    /*
     function game() {
-        let playerScore = 0
-        let computerScore = 0
-        let round
-        let playerSelection = prompt("What's your choice?")
+        let playerScore = 0;
+        let computerScore = 0;
+        let round;
+        let playerSelection = prompt("What's your choice?");
+
         for (round = 0; round <= 5; round++) {
             playRound(playerSelection, computerSelection)
             if (playRound.charAt(4) = "W") {
@@ -66,7 +182,9 @@
         } else {
             return "It's a Draw!"
         }
+        
     }
+    */
 
   </script>
 </body>
