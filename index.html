@@ -44,7 +44,6 @@
     const choices = ["rock", "paper", "scissors"];
 
     let playerSelection = "";
-    let computerSelection = computerPlay();
 
     let playerPoints = 0;
     let computerPoints = 0;
@@ -63,6 +62,7 @@
     paperImg.addEventListener("click", () => playerPlay("paper"));
 
     function playerPlay(playerSelection) {
+        const computerSelection = computerPlay();
         weapons(playerSelection, computerSelection);
         playRound(playerSelection, computerSelection);
     }
